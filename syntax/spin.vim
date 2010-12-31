@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language:	Spin
 " Maintainer:	Daniel Maturana <dimatura@puc.cl>
-" Last Change:	Mon Sep 29 1:00:00 EST 2008
+" Last Change:	Wed Dec 29 12:00:00 CST 2010
 
 " Syntax file for the Spin language, a language designed by Parallax Inc
 " for its line of Propeller microcontrollers.
@@ -12,6 +12,13 @@
 
 " For version 5.x: Clear all syntax items
 " For version 6.x: Quit when a syntax file was already loaded
+
+" Wed, Dec 29, 2010
+" Gordon Child
+" gordon@gordonchild.com
+" Corrected comment problem with brackets that open and close
+" on the same line {{ }}
+
 if version < 600
   syntax clear
 elseif exists("b:current_syntax")
@@ -94,9 +101,9 @@ syn keyword spinType		byte word long float
 syn keyword spinStatement	pub pri nextgroup=spinFunction skipwhite
 syn match   spinFunction	"[a-zA-Z_][a-zA-Z0-9_]*" contained
 
-syn match   spinComment	"'.*$" contains=spinTodo
-syn region  spinComment 	start=/{/ end=/}/ contains=spinComment
 syn keyword spinTodo		TODO FIXME XXX contained
+syn region  spinCommentL	start="'" end="$" contains=spinTodo
+syn region  spinComment 	start="{{" skip="'" end="}}" contains=spinTodo
 
 syn keyword spinConstant	true false 
 syn keyword spinConstant	posx negx
@@ -142,6 +149,7 @@ if version >= 508 || !exists("did_spin_syn_inits")
   HiLink spinEscape		Special
   HiLink spinOperator		Operator
   HiLink spinComment		Comment
+  HiLink spinCommentL		Comment
   HiLink spinTodo		Todo
   HiLink spinBuiltin		Function
   delcommand HiLink
